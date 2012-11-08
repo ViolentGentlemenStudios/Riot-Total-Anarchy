@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 public class ResourceManager {
-    private HashMap<String,BufferedImage> images = new HashMap<String,BufferedImage>();
+    private HashMap<String,BufferedImage> images = new HashMap<>();
     private final String INDEX_LOCATION = "res/imageindex.properties";
     private static ResourceManager instance = new ResourceManager();
     

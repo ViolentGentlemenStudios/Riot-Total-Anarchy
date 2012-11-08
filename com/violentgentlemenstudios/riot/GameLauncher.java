@@ -15,7 +15,7 @@ public class GameLauncher extends JFrame {
         
         addKeyListener( new KeyboardHandler( canvas ) );
         
-        setSize( 600, 400 );
+        setSize( 1000, 600 );
         setDefaultCloseOperation( EXIT_ON_CLOSE );
         setVisible( true );      
         canvas.createBufferStrategy( 2 );

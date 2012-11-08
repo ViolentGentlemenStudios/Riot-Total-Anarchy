@@ -6,20 +6,21 @@ import java.awt.Point;
 import java.awt.Toolkit;
 
 public class Map {
-    private byte[][] tiles = null;
+    private byte[][][] tiles = null;
     private short xTiles = 0;
     private short yTiles = 0;
     private Point location = null;
     
     public static final int MAP_SIZE = 2048;
+    public static final int MAP_LAYERS = 3;
     public static final short TILE_SIZE = 64;
     
-    public Map(byte[][] tiles){
+    public Map(byte[][][] tiles){
         this.tiles = tiles;
     }
     
     public Map(){
-        this(new byte[MAP_SIZE][MAP_SIZE]);
+        this(new byte[MAP_SIZE][MAP_SIZE][MAP_LAYERS]);
     }
     
     public void initializeGraphics(){
@@ -28,7 +29,7 @@ public class Map {
         yTiles = (short) Math.ceil(screenSize.height / TILE_SIZE+2);
     }
     
-    public void setTiles(byte[][] tiles){
+    public void setTiles(byte[][][] tiles){
         this.tiles = tiles;
     }
     
@@ -47,8 +48,10 @@ public class Map {
 
             for(short t = 0; t < xTiles; ++t){
                 for(short i = 0; i < yTiles; ++i){
-                    g.drawImage(TileDataStore.getTile(tiles[mapx+t][mapy+i]).getSprite(),
+                    for( short l = 0; l < MAP_LAYERS; ++l ) {
+                        g.drawImage(TileDataStore.getTile(tiles[mapx+t][mapy+i][l]).getSprite(),
                             t*TILE_SIZE-mapx_off, i*TILE_SIZE-mapy_off, null);
+                    }
                 }
             }
         }
