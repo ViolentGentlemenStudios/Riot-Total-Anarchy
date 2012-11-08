@@ -30,6 +30,6 @@ public class GameLauncher extends JFrame {
     }
     
     public void init() {
-        ResourceManager.getInstance().loadFromIndex();
+        ResourceManager.loadFromIndex();
     }    
 }

@@ -8,41 +8,39 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 public class ResourceManager {
-    private HashMap<String,BufferedImage> images = new HashMap<>();
-    private final String INDEX_LOCATION = "res/imageindex.properties";
-    private static ResourceManager instance = new ResourceManager();
+    private final static HashMap<String,BufferedImage> images = new HashMap<>();
+    private final static String INDEX_LOCATION = "res/imageindex.properties";
+    private final static Class thisClass = com.violentgentlemenstudios.riot.ResourceManager.class;
     
-    private ResourceManager(){}
+    public ResourceManager() {
     
-    public static ResourceManager getInstance(){
-        return instance;
     }
     
-    public void loadFromIndex(){
+    public static void loadFromIndex(){
         Properties properties = new Properties();
         try{
-            properties.load(getClass().getResourceAsStream(INDEX_LOCATION));
+            properties.load( thisClass.getResourceAsStream( INDEX_LOCATION ) );
         }catch(Exception ex){
             ex.printStackTrace();
         }
         Set<String> keys = properties.stringPropertyNames();
         for(String key : keys){
-            loadImage(key, properties.getProperty(key));
+            loadImage( key, properties.getProperty( key ) );
         }
     }
     
-    public Image getImage(String key){
-        return (Image)images.get(key);
+    public static Image getImage( String key ){
+        return (Image) images.get( key );
     }
     
-    public void loadImage(String key, String filename){
+    public static void loadImage( String key, String filename ){
         BufferedImage img = null;
         try {
-            img = ImageIO.read(getClass().getResource("res/"+filename));
+            img = ImageIO.read( thisClass.getResource("res/"+filename) );
         } catch (Exception e) { 
-            System.err.println("Unable to load: res/"+filename);
+            System.err.println( "Unable to load: res/" + filename );
             e.printStackTrace();
         }
-        images.put(key, img);
+        images.put( key, img );
     }
 }

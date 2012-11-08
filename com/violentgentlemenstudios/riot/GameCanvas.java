@@ -53,7 +53,7 @@ public class GameCanvas extends Canvas {
                 graphics.setColor( Color.BLACK );
                 graphics.fillRect( 0, 0, 1000, 600 );
                 
-                
+                graphics.drawImage( ResourceManager.getImage( "PLAYER_ALPHA" ) , 0, 786, null );
                 
                 graphics.setColor( COLOR_TITLE );
                 graphics.drawString( "RIOT:", 344, 100 );
