@@ -1,5 +1,6 @@
 package com.violentgentlemenstudios.riot;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,28 +10,72 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferStrategy;
-import java.text.AttributedString;
 import javax.swing.Timer;
 
 public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
-    private GameState gameState = GameState.MAIN_MENU;
-    protected boolean[] keys = new boolean[5];
+    private GameState gameState = GameState.INTRO;
+    protected final boolean[] keys = new boolean[5];
     
     private final Font MENU_FONT = new Font( "Times New Roman", Font.BOLD, 108 );
     private final Font MNUSELECT_FONT = new Font( "Times New Roman", Font.BOLD, 48 );
     private final Color COLOR_TITLE = new Color( 174, 19, 19 );
+    private float introFade = 0f;
+    private boolean fadingIn = true;
+    private int menuSelection = 0;
+    private long lastMenuChange = 0;
     
     public GameCanvas() {
+        setFocusable( false );
         setIgnoreRepaint( true );
         Chrono chrono = new Chrono( this );
         new Timer( 16, chrono ).start();
     }
 
     public void processFrame() {
-        
+        switch ( gameState ) {
+            case INTRO:
+                introFade += ( fadingIn ? 0.01 : -0.005 );
+                if ( introFade <= 0f ) {
+                    gameState = GameState.MAIN_MENU;
+                } else if ( introFade >= 1 ) {
+                    fadingIn = false;
+                }
+                introFade = (float) ( Math.round( introFade * 1000f ) / 1000f );
+                break;
+            case MAIN_MENU:
+                if ( ( lastMenuChange + 150 ) < System.currentTimeMillis() ) {
+                    if ( keys[2] ) {
+                        menuSelection--;
+                        if ( menuSelection < 0 ) { menuSelection = 0; }
+                    } else if ( keys[3] ) {
+                        menuSelection++;
+                        if ( menuSelection > 3 ) { menuSelection = 3; }
+                    }
+                    lastMenuChange = System.currentTimeMillis();
+                }
+                if ( keys[4] ) {
+                    switch ( menuSelection ) {
+                        case 0:
+                            gameState = GameState.GAME;
+                            break;
+                        case 1:
+                            gameState = GameState.GAME;
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            System.exit( 0 );
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
     }
     
     public void myRepaint() {
@@ -49,6 +94,12 @@ public class GameCanvas extends Canvas {
         
         // Do Graphics
         switch ( gameState ) {
+            case INTRO:
+                graphics.setColor( Color.BLACK );
+                graphics.fillRect( 0, 0, 1000, 600 );
+                graphics.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, introFade ) );
+                graphics.drawImage( ResourceManager.getImage( "MENU_LOGO_STUDIO" ), 290, 90, null );
+                break;
             case MAIN_MENU:
                 //System.out.println(graphics.getFontMetrics( MNUSELECT_FONT ).getStringBounds( "OPTIONS", graphics ).getWidth());
                 graphics.setFont( MENU_FONT );
@@ -68,8 +119,11 @@ public class GameCanvas extends Canvas {
                 graphics.drawString( "OPTIONS", 392, 425 );
                 graphics.drawString( "QUIT", 438, 500 );
                 
+                graphics.drawImage( ResourceManager.getImage( "MENU_CURSOR" ) , 300, 275 + (menuSelection * 75) - 35, null );
                 break;
             case GAME:
+                break;
+            default:
                 break;
         }
         

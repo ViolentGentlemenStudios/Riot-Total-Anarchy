@@ -13,15 +13,19 @@ public class KeyboardHandler implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         switch ( e.getKeyCode() ) {
+            case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 gc.keys[0] = true;
                 break;
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 gc.keys[1] = true;
                 break;
+            case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 gc.keys[2] = true;
                 break;
+            case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 gc.keys[3] = true;
                 break;
@@ -32,15 +36,19 @@ public class KeyboardHandler implements KeyListener {
     }  
     public void keyReleased(KeyEvent e) {
         switch ( e.getKeyCode() ) {
+            case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 gc.keys[0] = false;
                 break;
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 gc.keys[1] = false;
                 break;
+            case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 gc.keys[2] = false;
                 break;
+            case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 gc.keys[3] = false;
                 break;
