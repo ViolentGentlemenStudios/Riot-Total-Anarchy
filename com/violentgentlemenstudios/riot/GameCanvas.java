@@ -39,6 +39,7 @@ public class GameCanvas extends Canvas {
                 introFade += ( fadingIn ? 0.01 : -0.005 );
                 if ( introFade <= 0f ) {
                     gameState = GameState.MAIN_MENU;
+                    MusicManager.songPlay( "MENU_SONG" );
                 } else if ( introFade >= 1 ) {
                     fadingIn = false;
                 }
@@ -53,24 +54,23 @@ public class GameCanvas extends Canvas {
                         menuSelection++;
                         if ( menuSelection > 3 ) { menuSelection = 3; }
                     }
-                    lastMenuChange = System.currentTimeMillis();
-                }
-                if ( keys[4] ) {
-                    switch ( menuSelection ) {
-                        case 0:
-                            gameState = GameState.GAME;
-                            break;
-                        case 1:
-                            gameState = GameState.GAME;
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            System.exit( 0 );
-                            break;
-                        default:
-                            break;
+                    if ( keys[4] ) {
+                        switch ( menuSelection ) {
+                            case 0:
+                                gameState = GameState.GAME;
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                System.exit( 0 );
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    lastMenuChange = System.currentTimeMillis();
                 }
                 break;
             default:

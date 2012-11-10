@@ -32,5 +32,6 @@ public class GameLauncher extends JFrame {
     
     public void init() {
         ResourceManager.loadFromIndex();
+        MusicManager.loadFromIndex();
     }    
 }
