@@ -16,6 +16,7 @@ public class GameLauncher extends JFrame {
         addKeyListener( new KeyboardHandler( canvas ) );
         
         setSize( 1000, 600 );
+        setIconImage( ResourceManager.getImage( "ICON" ) );
         setDefaultCloseOperation( EXIT_ON_CLOSE );
         setVisible( true );      
         setResizable( false );
