@@ -50,7 +50,12 @@ public class EntityManager {
         return entities;
     }
     
-    public static void moveEntity(boolean forward, int uid){
-        entities.get(uid).move( getEntity( uid ).getSpeed() );
+    public static void moveEntity( Direction direction, int uid ) {
+        moveEntity( direction, uid, getEntity( uid ).getSpeed() );
+    }
+    
+    public static void moveEntity( Direction direction, int uid, int speed ){
+        getEntity( uid ).setDirection( direction );
+        getEntity( uid ).move( speed );
     }
 }

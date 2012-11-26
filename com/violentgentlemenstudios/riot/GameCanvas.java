@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,8 @@ import javax.swing.Timer;
 public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
     protected GameState gameState = GameState.INTRO;
-    protected final boolean[] keys = new boolean[5];
+    protected final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
+    protected int playerUid = -1;
     
     private float introFade = 0f;
     private boolean fadingIn = true;
@@ -26,6 +28,8 @@ public class GameCanvas extends Canvas {
         setIgnoreRepaint( true );
         Chrono chrono = new Chrono( this );
         new Timer( 16, chrono ).start();
+        
+        playerUid = EntityManager.addEntity( new EntityWithGravity( new Point( 300, 300) , Direction.UP, 7, ResourceManager.getImage( "PLAYER" ) ) );
     }
     
     public void processFrame() {
@@ -38,6 +42,17 @@ public class GameCanvas extends Canvas {
                 break;
             case MAIN_MENU: //Main menu wooo~~
                 MenuUtility.processMenu( keys );
+                break;
+            case GAME:
+                EntityManager.updateEntities();
+                if ( keys[0] ) {
+                    EntityManager.moveEntity( Direction.LEFT, playerUid );
+                } else if ( keys[1] ) {
+                    EntityManager.moveEntity( Direction.RIGHT, playerUid );
+                }
+                if ( keys[2] ) {
+                    EntityManager.moveEntity( Direction.UP, playerUid, 20 );
+                }
                 break;
             default:
                 break;
@@ -71,6 +86,7 @@ public class GameCanvas extends Canvas {
                 MenuUtility.drawMenu( MenuType.MAIN, graphics );
                 break;
             case GAME:
+                EntityManager.drawEntities( graphics, new Point( 0, 0 ) );
                 break;
             default:
                 break;
