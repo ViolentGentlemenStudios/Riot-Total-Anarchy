@@ -17,19 +17,23 @@ public class GameCanvas extends Canvas {
     protected GameState gameState = GameState.INTRO;
     protected final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
     protected int playerUid = -1;
+    protected Map gameMap = null;
     
     private float introFade = 0f;
     private boolean fadingIn = true;
     
     public GameCanvas() {
-        MenuUtility.setGameCanvas( this );
+        MenuUtility.setGameCanvas(this);
         
-        setFocusable( false );
-        setIgnoreRepaint( true );
-        Chrono chrono = new Chrono( this );
-        new Timer( 16, chrono ).start();
-        
-        playerUid = EntityManager.addEntity( new EntityWithGravity( new Point( 300, 300) , Direction.UP, 7, ResourceManager.getImage( "PLAYER" ) ) );
+        setFocusable(false);
+        setIgnoreRepaint(true);
+        Chrono chrono = new Chrono(this);
+        new Timer(20, chrono).start();
+
+        gameMap = MapLoader.loadMap("level1");
+        gameMap.initializeGraphics();
+        playerUid = EntityManager.addEntity( new EntityWithJump( new Point( 300, 200) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) );
+        EntityManager.addEntity( new EntityGoomba( new Point( 800, 100) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
     
     public void processFrame() {
@@ -46,12 +50,12 @@ public class GameCanvas extends Canvas {
             case GAME:
                 EntityManager.updateEntities();
                 if ( keys[0] ) {
-                    EntityManager.moveEntity( Direction.LEFT, playerUid );
+                    EntityManager.moveEntity( Direction.LEFT, playerUid, 7 );
                 } else if ( keys[1] ) {
-                    EntityManager.moveEntity( Direction.RIGHT, playerUid );
+                    EntityManager.moveEntity( Direction.RIGHT, playerUid, 7 );
                 }
                 if ( keys[2] ) {
-                    EntityManager.moveEntity( Direction.UP, playerUid, 20 );
+                    ( (EntityWithJump) EntityManager.getEntity( playerUid ) ).jump();
                 }
                 break;
             default:
@@ -86,6 +90,7 @@ public class GameCanvas extends Canvas {
                 MenuUtility.drawMenu( MenuType.MAIN, graphics );
                 break;
             case GAME:
+                gameMap.drawMap( graphics, (short)0, (short)0 );
                 EntityManager.drawEntities( graphics, new Point( 0, 0 ) );
                 break;
             default:

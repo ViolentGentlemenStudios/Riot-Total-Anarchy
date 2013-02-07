@@ -6,21 +6,21 @@ import javax.swing.SwingUtilities;
 
 public class GameLauncher extends JFrame {
     public GameLauncher() {        
-        super( "Riot: Total Anarchy" );
+        super("Riot: Total Anarchy");
         
         init();
         
         GameCanvas canvas = new GameCanvas();
-        add( canvas, BorderLayout.CENTER );
+        add(canvas, BorderLayout.CENTER);
         
-        addKeyListener( new KeyboardHandler( canvas ) );
+        addKeyListener(new KeyboardHandler(canvas));
         
-        setSize( 1000, 600 );
-        setIconImage( ResourceManager.getImage( "ICON" ) );
-        setDefaultCloseOperation( EXIT_ON_CLOSE );
-        setVisible( true );      
-        setResizable( false );
-        canvas.createBufferStrategy( 2 );
+        setSize(1000, 600);
+        setIconImage(ResourceManager.getImage("ICON"));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);      
+        setResizable(false);
+        canvas.createBufferStrategy(2);
     }
     
     public static void main( String[] args ) {

@@ -48,11 +48,7 @@ public class EntityManager {
     }
     public static HashMap<Integer,Entity> getAllEntities(){
         return entities;
-    }
-    
-    public static void moveEntity( Direction direction, int uid ) {
-        moveEntity( direction, uid, getEntity( uid ).getSpeed() );
-    }
+    } 
     
     public static void moveEntity( Direction direction, int uid, int speed ){
         getEntity( uid ).setDirection( direction );

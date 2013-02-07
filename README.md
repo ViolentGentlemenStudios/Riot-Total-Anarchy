@@ -16,6 +16,5 @@ Group Members:
 
 Other Members:
 * Vidnick452             - Assistant Creative Member/Story, Game Tester
-* Halofan1220            - Game Tester
 
 Special Thanks In `credits.txt`

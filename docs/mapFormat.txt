@@ -1,0 +1,10 @@
+Map File Format
+
+Offset     | Name         | Type    | Notes
+0x00000000   mapData        byte[]    byte[][][]; ordered layer 1-2 then left->right preceding over top->bottom
+
+Metadata File Format
+Properties File
+Key/Value Pairs:
+ - SPAWNX - short - x-coord of spawn
+ - SPAWNY - short - y-coord of spawn

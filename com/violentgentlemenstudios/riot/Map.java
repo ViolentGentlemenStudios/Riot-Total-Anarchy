@@ -11,7 +11,7 @@ public class Map {
     private short yTiles = 0;
     private Point location = null;
     
-    public static final int MAP_SIZE = 2048;
+    public static final int MAP_SIZE = 1024;
     public static final int MAP_LAYERS = 3;
     public static final short TILE_SIZE = 64;
     
@@ -20,13 +20,13 @@ public class Map {
     }
     
     public Map(){
-        this(new byte[MAP_SIZE][MAP_SIZE][MAP_LAYERS]);
+        this(new byte[MAP_LAYERS][MAP_SIZE][MAP_SIZE]);
     }
     
     public void initializeGraphics(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        xTiles = (short) Math.ceil(screenSize.width  / TILE_SIZE+2);
-        yTiles = (short) Math.ceil(screenSize.height / TILE_SIZE+2);
+        xTiles = (short) Math.ceil((screenSize.width  / TILE_SIZE) + 2);
+        yTiles = (short) Math.ceil((screenSize.height / TILE_SIZE) + 2);
     }
     
     public void setTiles(byte[][][] tiles){
@@ -38,7 +38,7 @@ public class Map {
     }
     
     public void drawMap(Graphics g, short mapx_draw, short mapy_draw){
-        if(mapx_draw > 0 && mapy_draw > 0){
+        if(mapx_draw >= 0 && mapy_draw >= 0){
             location = new Point(mapx_draw, mapy_draw);
             short mapx = (short) (mapx_draw / TILE_SIZE);
             short mapy = (short) (mapy_draw / TILE_SIZE);
@@ -49,7 +49,7 @@ public class Map {
             for(short t = 0; t < xTiles; ++t){
                 for(short i = 0; i < yTiles; ++i){
                     for( short l = 0; l < MAP_LAYERS; ++l ) {
-                        g.drawImage(TileDataStore.getTile(tiles[mapx+t][mapy+i][l]).getSprite(),
+                        g.drawImage(TileDataStore.getTile(tiles[l][mapx+t][mapy+i]).getSprite(),
                             t*TILE_SIZE-mapx_off, i*TILE_SIZE-mapy_off, null);
                     }
                 }
