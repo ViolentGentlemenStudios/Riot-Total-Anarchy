@@ -14,6 +14,10 @@ public class EntityWithJump extends EntityWithGravity {
         jump( DEFAULT_JUMP );
     }
     
+    public void update() {
+        super.update();
+    }
+    
     public void jump( int force ) {
         if ( gravityVelocity == 0 ) {
             gravityVelocity = -force;

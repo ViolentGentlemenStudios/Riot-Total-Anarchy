@@ -16,7 +16,6 @@ public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
     protected GameState gameState = GameState.INTRO;
     protected final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
-    protected int playerUid = -1;
     protected Map gameMap = null;
     
     private float introFade = 0f;
@@ -32,7 +31,7 @@ public class GameCanvas extends Canvas {
 
         gameMap = MapLoader.loadMap("level1");
         gameMap.initializeGraphics();
-        playerUid = EntityManager.addEntity( new EntityWithJump( new Point( 300, 200) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) );
+    EntityManager.setPlayer(EntityManager.addEntity( new EntityWithJump( new Point( 300, 200) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) ));
         EntityManager.addEntity( new EntityGoomba( new Point( 800, 100) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
     
@@ -50,12 +49,12 @@ public class GameCanvas extends Canvas {
             case GAME:
                 EntityManager.updateEntities();
                 if ( keys[0] ) {
-                    EntityManager.moveEntity( Direction.LEFT, playerUid, 7 );
+                    EntityManager.moveEntity( Direction.LEFT, EntityManager.getPlayerId(), 7 );
                 } else if ( keys[1] ) {
-                    EntityManager.moveEntity( Direction.RIGHT, playerUid, 7 );
+                    EntityManager.moveEntity( Direction.RIGHT, EntityManager.getPlayerId(), 7 );
                 }
                 if ( keys[2] ) {
-                    ( (EntityWithJump) EntityManager.getEntity( playerUid ) ).jump();
+                    ( (EntityWithJump) EntityManager.getEntity( EntityManager.getPlayerId() ) ).jump();
                 }
                 break;
             default:

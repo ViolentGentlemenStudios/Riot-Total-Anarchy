@@ -11,10 +11,11 @@ public class EntityWithGravity extends Entity {
     }
     
     public void update() {
+        super.update();
         setDirection( Direction.DOWN );
         move( gravityVelocity );
         
-        if ( boundingBox[2] < 400 ) { //Yay shitty gravity
+        if ( boundingBox.getMaxY() < 400 ) { //Yay shitty gravity
             gravityVelocity += 2; 
         } else {
             y = 400 - h;

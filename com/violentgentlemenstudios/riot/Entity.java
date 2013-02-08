@@ -3,9 +3,11 @@ package com.violentgentlemenstudios.riot;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Entity {
+    protected int id = 0;
     protected int x = 0;
     protected int y = 0;
     protected Direction direction = Direction.LEFT;
@@ -14,7 +16,7 @@ public class Entity {
     protected int w = 0;
     protected int h = 0;
     
-    protected int[] boundingBox = new int[4]; //Top, Right, Bottom, Left
+    protected Rectangle boundingBox = new Rectangle(); //Top, Right, Bottom, Left
     protected int distanceOffset = 0;
     
     public Entity(Point location, Direction direction, Image sprite){
@@ -36,11 +38,14 @@ public class Entity {
         x = location.x;
         y = location.y;
         
-        boundingBox[0] = y;
-        boundingBox[1] = x + w;
-        boundingBox[2] = y + h;
-        boundingBox[3] = x;
+        boundingBox.setLocation(location);
+        boundingBox.setSize(w, h);
     }
+    
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+    
     public Point getLocation(){
         return new Point(x,y);
     }
@@ -77,9 +82,43 @@ public class Entity {
         }
     }
     
-    public void update(){}
+    public boolean collided(Entity entity) {
+        return entity.getBoundingBox().intersects(boundingBox);
+    }
+    
+    public Direction horizontalCollision(Entity entity) {
+        Rectangle intersection = entity.getBoundingBox().intersection(boundingBox);
+        if (collided(entity)) {
+            if ((x+(w/2))<(intersection.x+(intersection.width /2))) { return Direction.RIGHT; }
+            if ((x+(w/2))>(intersection.x+(intersection.width /2))) { return Direction.LEFT;  }
+        }
+        return null;
+    }
+    
+    public Direction verticalCollision(Entity entity) {
+        Rectangle intersection = entity.getBoundingBox().intersection(boundingBox);
+        if (collided(entity)) {
+            if ((y+(h/2))<(intersection.y+(intersection.height/2))) { return Direction.DOWN;  }
+            if ((y+(h/2))>(intersection.y+(intersection.height/2))) { return Direction.UP;    }
+        }
+        return null;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() { return id; }
+    
+    public void update() {
+        if (collided(EntityManager.getPlayer())) { onPlayerCollide(); }
+    }
 
     public void draw(Graphics gfx, Point offset) {
         gfx.drawImage( getSprite(), x, y, null );
     }
+    
+    /* Events */
+    public void onDeath() {}
+    public void onPlayerCollide() {}
 }

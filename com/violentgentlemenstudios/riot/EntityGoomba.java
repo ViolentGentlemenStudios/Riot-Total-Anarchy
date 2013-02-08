@@ -14,4 +14,11 @@ public class EntityGoomba extends EntityWithGravity {
         setDirection( Direction.LEFT );
         move( 1 );
     }
+    
+    public void onPlayerCollide() {
+        super.onPlayerCollide();
+        if (verticalCollision(EntityManager.getPlayer()) == Direction.UP){
+            EntityManager.removeEntity(id);
+        }
+    }
 }
