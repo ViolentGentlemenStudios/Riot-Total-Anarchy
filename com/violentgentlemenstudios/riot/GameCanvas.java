@@ -16,7 +16,7 @@ public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
     protected GameState gameState = GameState.INTRO;
     protected final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
-    protected Map gameMap = null;
+    protected static Map gameMap = null;
     
     private float introFade = 0f;
     private boolean fadingIn = true;
@@ -31,8 +31,8 @@ public class GameCanvas extends Canvas {
 
         gameMap = MapLoader.loadMap("level1");
         gameMap.initializeGraphics();
-    EntityManager.setPlayer(EntityManager.addEntity( new EntityWithJump( new Point( 300, 200) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) ));
-        EntityManager.addEntity( new EntityGoomba( new Point( 800, 100) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
+        EntityManager.setPlayer(EntityManager.addEntity( new EntityWithJump( new Point( 900, 400) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) ));
+        EntityManager.addEntity( new EntityGoomba( new Point( 1200, 400) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
     
     public void processFrame() {
@@ -89,8 +89,11 @@ public class GameCanvas extends Canvas {
                 MenuUtility.drawMenu( MenuType.MAIN, graphics );
                 break;
             case GAME:
-                gameMap.drawMap( graphics, (short)0, (short)0 );
-                EntityManager.drawEntities( graphics, new Point( 0, 0 ) );
+                gameMap.drawMap(graphics, (short) (EntityManager.getPlayer().getLocation().getX() - 500),
+                            (short) (EntityManager.getPlayer().getLocation().getY() - 300));
+                EntityManager.drawEntities(graphics, (short) (EntityManager.getPlayer().getLocation().getX() - 500),
+                            (short) (EntityManager.getPlayer().getLocation().getY() - 300));
+                HUD.draw(graphics);
                 break;
             default:
                 break;
@@ -101,6 +104,10 @@ public class GameCanvas extends Canvas {
         Toolkit.getDefaultToolkit().sync();
 
         repaintInProgress = false;
+    }
+    
+    public static Map getMap() {
+        return gameMap;
     }
     
     public class Chrono implements ActionListener {

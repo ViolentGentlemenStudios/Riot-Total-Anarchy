@@ -115,7 +115,8 @@ public class Entity {
     }
 
     public void draw(Graphics gfx, Point offset) {
-        gfx.drawImage( getSprite(), x, y, null );
+        gfx.drawImage( getSprite(), getLocation().x - offset.x - getDistanceOffset(),
+                getLocation().y - offset.y - getDistanceOffset(), null );
     }
     
     /* Events */

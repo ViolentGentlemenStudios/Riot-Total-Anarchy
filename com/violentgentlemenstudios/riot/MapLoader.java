@@ -3,6 +3,7 @@ package com.violentgentlemenstudios.riot;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Properties;
 
 public class MapLoader {
     private static final String LEVEL_FOLDER = "res/lvl/";
@@ -25,6 +26,10 @@ public class MapLoader {
                 }
                 mapData[t] = layerFinal;
             }
+            
+            Properties metaData = new Properties();
+            metaData.load(thisClass.getResourceAsStream(LEVEL_FOLDER + levelName + MDATA_SUFFIX));
+            
         } catch ( Exception ex ) {
             ex.printStackTrace();
         }

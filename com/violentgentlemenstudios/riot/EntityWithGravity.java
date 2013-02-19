@@ -6,19 +6,23 @@ import java.awt.Point;
 public class EntityWithGravity extends Entity {
     protected int gravityVelocity = 0;
     
-    public EntityWithGravity( Point location, Direction direction, Image sprite ){
-        super( location, direction, sprite );
+    public EntityWithGravity(Point location, Direction direction, Image sprite){
+        super(location, direction, sprite);
     }
     
     public void update() {
         super.update();
-        setDirection( Direction.DOWN );
-        move( gravityVelocity );
+        setDirection(Direction.DOWN);
+        move(gravityVelocity);
         
-        if ( boundingBox.getMaxY() < 400 ) { //Yay shitty gravity
+        Tile belowTile = GameCanvas.getMap().getTileAt((int) boundingBox.getMaxX(),
+                (int) boundingBox.getMaxY(), 1);
+        System.out.println(GameCanvas.getMap().getIdAt((int) boundingBox.getMaxX(),
+                (int) boundingBox.getMaxY(), 1));
+        if (!belowTile.collides()) { //Yay shitty gravity
             gravityVelocity += 2; 
         } else {
-            y = 400 - h;
+            y = (int) boundingBox.getMaxY() - h;
             gravityVelocity = 0;
         }
     }

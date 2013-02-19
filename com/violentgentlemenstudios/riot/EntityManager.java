@@ -34,7 +34,8 @@ public class EntityManager {
         entities.remove(index);
     }
     
-    public static void drawEntities(Graphics g, Point offset){
+    public static void drawEntities(Graphics g, short x, short y){
+        Point offset = new Point(x, y);
         for(Entity entity : entities.values()){
             entity.draw(g, offset);
         }

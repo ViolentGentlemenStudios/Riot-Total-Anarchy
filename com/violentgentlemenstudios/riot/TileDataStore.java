@@ -6,9 +6,9 @@ package com.violentgentlemenstudios.riot;
 public class TileDataStore {
     //private static HashMap<Byte,Tile> tiles = new HashMap<>();
     private static Tile[] tiles = {
-        new Tile(ResourceManager.getImage("TILE_CLEAR")),
-        new Tile(ResourceManager.getImage("TILE_TEST")),
-        new Tile(ResourceManager.getImage("TILE_GRASS"))
+        new Tile(ResourceManager.getImage("TILE_CLEAR"), false),
+        new Tile(ResourceManager.getImage("TILE_TEST"), false),
+        new Tile(ResourceManager.getImage("TILE_GRASS"), true)
     };
     
     /*public static void addTile(byte id, Image sprite){

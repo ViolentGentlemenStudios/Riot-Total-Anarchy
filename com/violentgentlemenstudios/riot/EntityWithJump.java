@@ -19,7 +19,7 @@ public class EntityWithJump extends EntityWithGravity {
     }
     
     public void jump( int force ) {
-        if ( gravityVelocity == 0 ) {
+        if ( gravityVelocity == 0 || Cheats.INFINITE_JUMP ) {
             gravityVelocity = -force;
         }
     }

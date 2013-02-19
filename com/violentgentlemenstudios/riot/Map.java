@@ -56,4 +56,12 @@ public class Map {
             }
         }
     }
+    
+    public byte getIdAt(int x, int y, int layer) {
+        return tiles[layer][x/TILE_SIZE][y/TILE_SIZE];
+    }
+    
+    public Tile getTileAt(int x, int y, int layer) {
+        return TileDataStore.getTile(getIdAt(x, y, layer));
+    }
 }
