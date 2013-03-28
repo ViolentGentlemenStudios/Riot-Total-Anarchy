@@ -3,7 +3,6 @@ package com.violentgentlemenstudios.riot;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Toolkit;
 
 public class Map {
     private byte[][][] tiles = null;
@@ -23,10 +22,9 @@ public class Map {
         this(new byte[MAP_LAYERS][MAP_SIZE][MAP_SIZE]);
     }
     
-    public void initializeGraphics(){
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        xTiles = (short) Math.ceil((screenSize.width  / TILE_SIZE) + 2);
-        yTiles = (short) Math.ceil((screenSize.height / TILE_SIZE) + 2);
+    public void initializeGraphics(Dimension drawableArea){
+        xTiles = (short) Math.ceil((drawableArea.width  / TILE_SIZE) + 2);
+        yTiles = (short) Math.ceil((drawableArea.height / TILE_SIZE) + 2);
     }
     
     public void setTiles(byte[][][] tiles){
@@ -45,10 +43,9 @@ public class Map {
 
             short mapx_off = (short) (mapx_draw & (TILE_SIZE-1));
             short mapy_off = (short) (mapy_draw & (TILE_SIZE-1));
-
-            for(short t = 0; t < xTiles; ++t){
-                for(short i = 0; i < yTiles; ++i){
-                    for( short l = 0; l < MAP_LAYERS; ++l ) {
+            for(short l = 0; l < MAP_LAYERS; ++l) {
+                for(short t = 0; t < xTiles; ++t) {
+                    for(short i = 0; i < yTiles; ++i) {  
                         g.drawImage(TileDataStore.getTile(tiles[l][mapx+t][mapy+i]).getSprite(),
                             t*TILE_SIZE-mapx_off, i*TILE_SIZE-mapy_off, null);
                     }

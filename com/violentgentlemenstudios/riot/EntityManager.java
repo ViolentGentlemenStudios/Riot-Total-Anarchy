@@ -13,25 +13,27 @@ public class EntityManager {
         return addEntity(entity, -1);
     }
     
-    public static int addEntity(Entity entity, int index){
-        if(index == -1){
+    public static int addEntity(Entity entity, int id){
+        if(id == -1){
             Set<Integer> keys = entities.keySet();
             for(Integer key : keys){
-                if(key > (index + 1)){
+                if(key > (id + 1)){
                    break; 
                 }
-                index = key;
+                id = key;
             }
-            index += 1;
+            id += 1;
         }
-        entities.put(index, entity);
-        entity.setId(index);
-        return index;
+        entities.put(id, entity);
+        entity.setId(id);
+        return id;
     }
     
-    public static void removeEntity(int index){
-        getEntity(index).onDeath();
-        entities.remove(index);
+    public static void removeEntity(int id){
+        entities.remove(id);
+        if (id == playerId) {
+            // End GAME
+        }
     }
     
     public static void drawEntities(Graphics g, short x, short y){
@@ -47,9 +49,10 @@ public class EntityManager {
         }
     }
     
-    public static Entity getEntity(int uid){
-        return entities.get(uid);
+    public static Entity getEntity(int id){
+        return entities.get(id);
     }
+    
     public static HashMap<Integer,Entity> getAllEntities(){
         return entities;
     } 
@@ -64,8 +67,8 @@ public class EntityManager {
         EntityManager.playerId = playerId;
     }
     
-    public static void moveEntity( Direction direction, int uid, int speed ){
-        getEntity( uid ).setDirection( direction );
-        getEntity( uid ).move( speed );
+    public static void moveEntity( Direction direction, int id, int speed ){
+        getEntity( id ).setDirection( direction );
+        getEntity( id ).move( speed );
     }
 }

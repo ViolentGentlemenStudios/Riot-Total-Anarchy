@@ -3,6 +3,7 @@ package com.violentgentlemenstudios.riot;
 import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -30,7 +31,7 @@ public class GameCanvas extends Canvas {
         new Timer(20, chrono).start();
 
         gameMap = MapLoader.loadMap("level1");
-        gameMap.initializeGraphics();
+        gameMap.initializeGraphics(new Dimension(1000, 600));
         EntityManager.setPlayer(EntityManager.addEntity( new EntityWithJump( new Point( 900, 400) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) ));
         EntityManager.addEntity( new EntityGoomba( new Point( 1200, 400) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
@@ -89,10 +90,10 @@ public class GameCanvas extends Canvas {
                 MenuUtility.drawMenu( MenuType.MAIN, graphics );
                 break;
             case GAME:
-                gameMap.drawMap(graphics, (short) (EntityManager.getPlayer().getLocation().getX() - 500),
-                            (short) (EntityManager.getPlayer().getLocation().getY() - 300));
-                EntityManager.drawEntities(graphics, (short) (EntityManager.getPlayer().getLocation().getX() - 500),
-                            (short) (EntityManager.getPlayer().getLocation().getY() - 300));
+                gameMap.drawMap(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
+                            (short) (EntityManager.getPlayer().getLocation().getY() - 300 + 8)); // 8 is a magic number... need to fix that
+                EntityManager.drawEntities(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
+                            (short) (EntityManager.getPlayer().getCenter().getY() - 300));
                 HUD.draw(graphics);
                 break;
             default:

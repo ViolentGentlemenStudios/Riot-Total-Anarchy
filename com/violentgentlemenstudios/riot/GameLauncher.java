@@ -1,5 +1,6 @@
 package com.violentgentlemenstudios.riot;
 
+import com.violentgentlemenstudios.riot.util.mapviewer.UtilMapViewer;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -23,12 +24,27 @@ public class GameLauncher extends JFrame {
         canvas.createBufferStrategy(2);
     }
     
-    public static void main( String[] args ) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new GameLauncher();
+    public static void main(String[] args) {
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "mapview":
+                    if (args.length >= 2) {
+                        UtilMapViewer utilViewer = new UtilMapViewer(args[1]);
+                    } else {
+                        System.out.println("Usage: mapview <levelName>");
+                    }
+                    break;
+                default:
+                    System.out.println("Unknown utility: " + args[0]);
+                    break;
             }
-        });
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    new GameLauncher();
+                }
+            });
+        }
     }
     
     public void init() {

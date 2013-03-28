@@ -50,6 +50,10 @@ public class Entity {
         return new Point(x,y);
     }
     
+    public Point getCenter() {
+        return new Point(x + (w / 2), y + (h / 2));
+    }
+    
     public void setSprite(Image sprite){
         this.sprite = new ImageIcon(sprite);
         this.distanceOffset = sprite.getWidth(null)/2;
@@ -80,6 +84,14 @@ public class Entity {
                 setLocation( new Point( x + distance , y ) );
                 break;
         }
+        if (x < 0 || y < 0) {
+            kill();
+        }
+    }
+    
+    public void kill() {
+        onDeath();
+        EntityManager.removeEntity(id);
     }
     
     public boolean collided(Entity entity) {

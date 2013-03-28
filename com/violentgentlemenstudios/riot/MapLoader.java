@@ -21,8 +21,10 @@ public class MapLoader {
             for ( int t = 0; t < Map.MAP_LAYERS; t++ ) {
                 byte[] layerBytes = Arrays.copyOfRange( fileBytes, t * squareLayerSize, ( t + 1 ) * squareLayerSize );
                 byte[][] layerFinal = new byte[Map.MAP_SIZE][Map.MAP_SIZE];
-                for ( int i = 0; i < Map.MAP_SIZE; i++ ) {
-                    layerFinal[i] = Arrays.copyOfRange( layerBytes, i * Map.MAP_SIZE, ( i + 1 ) * Map.MAP_SIZE );
+                for (int u = 0; u < Map.MAP_SIZE; u++) {
+                    for ( int i = 0; i < Map.MAP_SIZE; i++ ) {
+                        layerFinal[u][i] = layerBytes[(i * Map.MAP_SIZE) + u];
+                    }
                 }
                 mapData[t] = layerFinal;
             }

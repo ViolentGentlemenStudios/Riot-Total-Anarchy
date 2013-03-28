@@ -17,12 +17,10 @@ public class EntityWithGravity extends Entity {
         
         Tile belowTile = GameCanvas.getMap().getTileAt((int) boundingBox.getMaxX(),
                 (int) boundingBox.getMaxY(), 1);
-        System.out.println(GameCanvas.getMap().getIdAt((int) boundingBox.getMaxX(),
-                (int) boundingBox.getMaxY(), 1));
         if (!belowTile.collides()) { //Yay shitty gravity
-            gravityVelocity += 2; 
-        } else {
-            y = (int) boundingBox.getMaxY() - h;
+            gravityVelocity += (gravityVelocity < 24 ? 2 : 0); 
+        } else if (gravityVelocity > 0) {
+            setLocation(new Point(x, (y + Map.TILE_SIZE - (int)(boundingBox.getMaxY()  % Map.TILE_SIZE))));
             gravityVelocity = 0;
         }
     }

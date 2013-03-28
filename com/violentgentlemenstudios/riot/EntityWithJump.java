@@ -10,12 +10,12 @@ public class EntityWithJump extends EntityWithGravity {
         super( location, direction, sprite );
     }
     
-    public void jump() {
-        jump( DEFAULT_JUMP );
-    }
-    
     public void update() {
         super.update();
+    }
+    
+    public void jump() {
+        jump( DEFAULT_JUMP );
     }
     
     public void jump( int force ) {
