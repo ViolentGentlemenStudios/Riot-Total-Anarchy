@@ -3,9 +3,11 @@ package com.violentgentlemenstudios.riot;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.HashMap;
 
 public class Map {
     private byte[][][] tiles = null;
+    private HashMap<String, String> metadata = new HashMap<>();
     private short xTiles = 0;
     private short yTiles = 0;
     private Point location = null;
@@ -14,12 +16,13 @@ public class Map {
     public static final int MAP_LAYERS = 3;
     public static final short TILE_SIZE = 64;
     
-    public Map(byte[][][] tiles){
+    public Map(byte[][][] tiles, HashMap<String, String> metadata){
         this.tiles = tiles;
+        this.metadata = metadata;
     }
     
     public Map(){
-        this(new byte[MAP_LAYERS][MAP_SIZE][MAP_SIZE]);
+        this(new byte[MAP_LAYERS][MAP_SIZE][MAP_SIZE], new HashMap<String, String>());
     }
     
     public void initializeGraphics(Dimension drawableArea){
@@ -29,6 +32,10 @@ public class Map {
     
     public void setTiles(byte[][][] tiles){
         this.tiles = tiles;
+    }
+    
+    public void setData(String key, String value) {
+        metadata.put(key, value);
     }
     
     public Point getLocation(){
@@ -60,5 +67,13 @@ public class Map {
     
     public Tile getTileAt(int x, int y, int layer) {
         return TileDataStore.getTile(getIdAt(x, y, layer));
+    }
+    
+    public String getDataValue(String key) {
+        if (metadata.containsKey(key)) {
+            return metadata.get(key);
+        } else {
+            return null;
+        }
     }
 }

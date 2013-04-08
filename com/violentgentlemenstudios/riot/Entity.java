@@ -17,14 +17,13 @@ public class Entity {
     protected int h = 0;
     
     protected Rectangle boundingBox = new Rectangle(); //Top, Right, Bottom, Left
-    protected int distanceOffset = 0;
+    protected int distanceOffsetX = 0;
+    protected int distanceOffsetY = 0;
     
     public Entity(Point location, Direction direction, Image sprite){
         setLocation(location);
         setDirection(direction);
         setSprite(sprite);
-        
-        this.distanceOffset = sprite.getWidth(null)/2;
     }
     
     public void setDirection(Direction direction){
@@ -56,7 +55,8 @@ public class Entity {
     
     public void setSprite(Image sprite){
         this.sprite = new ImageIcon(sprite);
-        this.distanceOffset = sprite.getWidth(null)/2;
+        this.distanceOffsetX = sprite.getWidth(null)/2;
+        this.distanceOffsetY = sprite.getHeight(null)/2;
         
         this.w = sprite.getWidth(null);
         this.h = sprite.getHeight(null);
@@ -65,8 +65,12 @@ public class Entity {
         return sprite.getImage();
     }
     
-    public int getDistanceOffset(){
-        return distanceOffset;
+    public int getDistanceOffsetX(){
+        return distanceOffsetX;
+    }
+    
+    public int getDistanceOffsetY(){
+        return distanceOffsetY;
     }
 
     public void move( int distance ){
@@ -127,8 +131,8 @@ public class Entity {
     }
 
     public void draw(Graphics gfx, Point offset) {
-        gfx.drawImage( getSprite(), getLocation().x - offset.x - getDistanceOffset(),
-                getLocation().y - offset.y - getDistanceOffset(), null );
+        gfx.drawImage( getSprite(), getLocation().x - offset.x,
+                getLocation().y - offset.y, null );
     }
     
     /* Events */

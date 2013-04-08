@@ -3,6 +3,7 @@ package com.violentgentlemenstudios.riot;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class MapLoader {
@@ -31,7 +32,9 @@ public class MapLoader {
             
             Properties metaData = new Properties();
             metaData.load(thisClass.getResourceAsStream(LEVEL_FOLDER + levelName + MDATA_SUFFIX));
-            
+            for (Object key : metaData.keySet()) {
+                map.setData((String) key, metaData.getProperty((String) key));
+            }
         } catch ( Exception ex ) {
             ex.printStackTrace();
         }

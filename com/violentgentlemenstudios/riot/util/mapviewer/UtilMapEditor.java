@@ -14,12 +14,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-public class UtilMapViewer extends JFrame {
+public class UtilMapEditor extends JFrame {
     private Map viewMap = null;
     private Canvas canvas = null;
     
-    public UtilMapViewer(String levelName) {
-        super("RTAe Map Viewer");
+    public UtilMapEditor(String levelName) {
+        super("RTAe Map Editor");
         viewMap = MapLoader.loadMap(levelName);
         
         canvas = new Canvas();
@@ -55,9 +55,9 @@ public class UtilMapViewer extends JFrame {
     }
     
     private class Chrono implements ActionListener {
-	private UtilMapViewer gc = null;
+	private UtilMapEditor gc = null;
 
-	public Chrono(UtilMapViewer gc) {
+	public Chrono(UtilMapEditor gc) {
             this.gc = gc;
 	}
 

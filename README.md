@@ -15,6 +15,6 @@ Group Members:
 * Eaddae                 - Graphics, Art Direction, Level Design
 
 Other Members:
-* Vidnick452             - Assistant Creative Member/Story, Game Tester
+* None at the moment (all others have quit or been terminated)
 
 Special Thanks In `credits.txt`

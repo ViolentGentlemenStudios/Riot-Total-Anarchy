@@ -32,8 +32,10 @@ public class GameCanvas extends Canvas {
 
         gameMap = MapLoader.loadMap("level1");
         gameMap.initializeGraphics(new Dimension(1000, 600));
-        EntityManager.setPlayer(EntityManager.addEntity( new EntityWithJump( new Point( 900, 400) , Direction.UP, ResourceManager.getImage( "PLAYER" ) ) ));
-        EntityManager.addEntity( new EntityGoomba( new Point( 1200, 400) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
+        Point spawnPoint = new Point(Integer.parseInt(gameMap.getDataValue("SPAWNX")), Integer.parseInt(gameMap.getDataValue("SPAWNY")));
+        
+        EntityManager.setPlayer(EntityManager.addEntity(new EntityWithJump(spawnPoint, Direction.UP, ResourceManager.getImage("PLAYER"))));
+        EntityManager.addEntity( new EntityGoomba( new Point( 6000, 400) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
     
     public void processFrame() {
@@ -91,7 +93,7 @@ public class GameCanvas extends Canvas {
                 break;
             case GAME:
                 gameMap.drawMap(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
-                            (short) (EntityManager.getPlayer().getLocation().getY() - 300 + 8)); // 8 is a magic number... need to fix that
+                            (short) (EntityManager.getPlayer().getLocation().getY() + EntityManager.getPlayer().getDistanceOffsetY() - 300 - Map.TILE_SIZE));
                 EntityManager.drawEntities(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
                             (short) (EntityManager.getPlayer().getCenter().getY() - 300));
                 HUD.draw(graphics);
