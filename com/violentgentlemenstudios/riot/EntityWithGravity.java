@@ -6,8 +6,8 @@ import java.awt.Point;
 public class EntityWithGravity extends Entity {
     protected int gravityVelocity = 0;
     
-    public EntityWithGravity(Point location, Direction direction, Image sprite){
-        super(location, direction, sprite);
+    public EntityWithGravity(Point location, Image sprite){
+        super(location, sprite);
     }
     
     public void update() {

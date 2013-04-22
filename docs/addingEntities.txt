@@ -1,0 +1,4 @@
+1. Make sure the image is in the resource folder
+2. Make sure the image is referenced in imageindex.properties
+3. Create class for entity. Extend necessary superclasses.
+4. Fill in data as needed in EntityDataStore

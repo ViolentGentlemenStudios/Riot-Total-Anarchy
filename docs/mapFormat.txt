@@ -8,3 +8,11 @@ Properties File
 Key/Value Pairs:
  - SPAWNX - short - x-coord of spawn
  - SPAWNY - short - y-coord of spawn
+ - ENTITIES - int - number of entities
+ - ENTITYn  - entity - describes an entity
+
+ENTITY Type:
+ENTITYn_NAME - String - type of entity
+ENTITYn_X - short - x-coord of entity
+ENTITYn_Y - short - y-coord of entity
+ENTITYn_DATA - String - anything else the object needs

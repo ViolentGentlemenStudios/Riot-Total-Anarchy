@@ -1,9 +1,9 @@
 package com.violentgentlemenstudios.riot;
 
+import java.awt.Point;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Properties;
 
 public class MapLoader {
@@ -40,5 +40,20 @@ public class MapLoader {
         }
         map.setTiles( mapData );        
         return map;
+    }
+    
+    public static Map loadLevel(String levelName) {
+        Map gameMap = loadMap(levelName);
+        Point spawnPoint = new Point(Integer.parseInt(gameMap.getDataValue("SPAWNX")), Integer.parseInt(gameMap.getDataValue("SPAWNY")));
+        
+        EntityManager.setPlayer(EntityManager.addEntity(EntityDataStore.makeEntity("player", spawnPoint)));
+        for (int t = 1; t <= Integer.parseInt(gameMap.getDataValue("ENTITIES")); ++t) {
+            EntityManager.addEntity(EntityDataStore.makeEntity(
+                    gameMap.getDataValue("ENTITY" + t + "_NAME"), 
+                    new Point(Integer.parseInt(gameMap.getDataValue("ENTITY" + t + "_X")), 
+                        Integer.parseInt(gameMap.getDataValue("ENTITY" + t + "_Y")))));   
+        }
+        
+        return gameMap;
     }
 }

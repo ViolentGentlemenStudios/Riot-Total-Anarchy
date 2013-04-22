@@ -6,8 +6,8 @@ import java.awt.Point;
 public class EntityWithJump extends EntityWithGravity {
     protected final int DEFAULT_JUMP = 25; // Must be odd, or else velocity = 0 at top
     
-    public EntityWithJump( Point location, Direction direction, Image sprite ){
-        super( location, direction, sprite );
+    public EntityWithJump( Point location, Image sprite ){
+        super( location, sprite );
     }
     
     public void update() {

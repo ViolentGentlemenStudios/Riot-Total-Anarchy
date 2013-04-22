@@ -20,9 +20,9 @@ public class Entity {
     protected int distanceOffsetX = 0;
     protected int distanceOffsetY = 0;
     
-    public Entity(Point location, Direction direction, Image sprite){
+    public Entity(Point location, Image sprite){
         setLocation(location);
-        setDirection(direction);
+        setDirection(Direction.UP);
         setSprite(sprite);
     }
     
@@ -93,6 +93,8 @@ public class Entity {
         }
     }
     
+    public void interact() {}
+    
     public void kill() {
         onDeath();
         EntityManager.removeEntity(id);
@@ -127,7 +129,10 @@ public class Entity {
     public int getId() { return id; }
     
     public void update() {
-        if (collided(EntityManager.getPlayer())) { onPlayerCollide(); }
+        if (collided(EntityManager.getPlayer())) {
+            if (GameCanvas.getKeys()[4]) { interact(); }
+            onPlayerCollide();
+        }
     }
 
     public void draw(Graphics gfx, Point offset) {

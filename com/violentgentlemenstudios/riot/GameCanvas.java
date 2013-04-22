@@ -16,7 +16,7 @@ import javax.swing.Timer;
 public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
     protected GameState gameState = GameState.INTRO;
-    protected final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
+    protected static final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
     protected static Map gameMap = null;
     
     private float introFade = 0f;
@@ -30,38 +30,38 @@ public class GameCanvas extends Canvas {
         Chrono chrono = new Chrono(this);
         new Timer(20, chrono).start();
 
-        gameMap = MapLoader.loadMap("level1");
+        gameMap = MapLoader.loadLevel("level1");
         gameMap.initializeGraphics(new Dimension(1000, 600));
-        Point spawnPoint = new Point(Integer.parseInt(gameMap.getDataValue("SPAWNX")), Integer.parseInt(gameMap.getDataValue("SPAWNY")));
-        
-        EntityManager.setPlayer(EntityManager.addEntity(new EntityWithJump(spawnPoint, Direction.UP, ResourceManager.getImage("PLAYER"))));
-        EntityManager.addEntity( new EntityGoomba( new Point( 6000, 400) , Direction.LEFT, ResourceManager.getImage( "GOOMBA" ) ) );
     }
     
     public void processFrame() {
-        switch ( gameState ) {
-            case INTRO: //Runs on game start
-                introFade += ( fadingIn ? 0.01 : -0.005 ); // Adjust the alpha on the fade. Fade in twice as fast as fade out.
-                if ( introFade <= 0f ) { gameState = GameState.MAIN_MENU; } //Once fade complete, switch to main menu.
-                if ( introFade >= 1 ) { fadingIn = false; } //At end of fade in, fade out
-                introFade = (float) ( Math.round( introFade * 1000f ) / 1000f ); //Fancy math rounding crap
-                break;
-            case MAIN_MENU: //Main menu wooo~~
-                MenuUtility.processMenu( keys );
-                break;
-            case GAME:
-                EntityManager.updateEntities();
-                if ( keys[0] ) {
-                    EntityManager.moveEntity( Direction.LEFT, EntityManager.getPlayerId(), 7 );
-                } else if ( keys[1] ) {
-                    EntityManager.moveEntity( Direction.RIGHT, EntityManager.getPlayerId(), 7 );
-                }
-                if ( keys[2] ) {
-                    ( (EntityWithJump) EntityManager.getEntity( EntityManager.getPlayerId() ) ).jump();
-                }
-                break;
-            default:
-                break;
+        try {
+            switch ( gameState ) {
+                case INTRO: //Runs on game start
+                    introFade += ( fadingIn ? 0.01 : -0.005 ); // Adjust the alpha on the fade. Fade in twice as fast as fade out.
+                    if ( introFade <= 0f ) { gameState = GameState.MAIN_MENU; } //Once fade complete, switch to main menu.
+                    if ( introFade >= 1 ) { fadingIn = false; } //At end of fade in, fade out
+                    introFade = (float) ( Math.round( introFade * 1000f ) / 1000f ); //Fancy math rounding crap
+                    break;
+                case MAIN_MENU: //Main menu wooo~~
+                    MenuUtility.processMenu( keys );
+                    break;
+                case GAME:
+                    EntityManager.updateEntities();
+                    if ( keys[0] ) {
+                        EntityManager.moveEntity( Direction.LEFT, EntityManager.getPlayerId(), 7 );
+                    } else if ( keys[1] ) {
+                        EntityManager.moveEntity( Direction.RIGHT, EntityManager.getPlayerId(), 7 );
+                    }
+                    if ( keys[2] ) {
+                        ( (EntityWithJump) EntityManager.getEntity( EntityManager.getPlayerId() ) ).jump();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception ex) {
+            System.out.println("Some shit borked while processing things.");
         }
     }
     
@@ -97,6 +97,7 @@ public class GameCanvas extends Canvas {
                 EntityManager.drawEntities(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
                             (short) (EntityManager.getPlayer().getCenter().getY() - 300));
                 HUD.draw(graphics);
+                Chatbox.draw(graphics);
                 break;
             default:
                 break;
@@ -111,6 +112,10 @@ public class GameCanvas extends Canvas {
     
     public static Map getMap() {
         return gameMap;
+    }
+    
+    public static boolean[] getKeys() {
+        return keys;
     }
     
     public class Chrono implements ActionListener {
