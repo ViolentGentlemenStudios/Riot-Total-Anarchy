@@ -2,6 +2,7 @@ package com.violentgentlemenstudios.riot;
 
 import com.violentgentlemenstudios.riot.util.mapviewer.UtilMapEditor;
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -17,6 +18,8 @@ public class GameLauncher extends JFrame {
         addKeyListener(new KeyboardHandler(canvas));
         
         setSize(1000, 600);
+        setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 500, 
+                Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 300);
         setIconImage(ResourceManager.getImage("ICON"));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);      

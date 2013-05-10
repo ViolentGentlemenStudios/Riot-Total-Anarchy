@@ -15,7 +15,7 @@ import javax.swing.Timer;
 
 public class GameCanvas extends Canvas {
     private boolean repaintInProgress = false;
-    protected GameState gameState = GameState.INTRO;
+    protected static GameState gameState = GameState.INTRO;
     protected static final boolean[] keys = new boolean[5]; //Left, Right, Up, Down, Select
     protected static Map gameMap = null;
     
@@ -42,6 +42,7 @@ public class GameCanvas extends Canvas {
                     if ( introFade <= 0f ) { gameState = GameState.MAIN_MENU; } //Once fade complete, switch to main menu.
                     if ( introFade >= 1 ) { fadingIn = false; } //At end of fade in, fade out
                     introFade = (float) ( Math.round( introFade * 1000f ) / 1000f ); //Fancy math rounding crap
+                    if (keys[4]) { gameState = GameState.MAIN_MENU; }
                     break;
                 case MAIN_MENU: //Main menu wooo~~
                     MenuUtility.processMenu( keys );
@@ -55,14 +56,19 @@ public class GameCanvas extends Canvas {
                     }
                     if ( keys[2] ) {
                         ( (EntityWithJump) EntityManager.getEntity( EntityManager.getPlayerId() ) ).jump();
+                        CutsceneManager.play(0);
                     }
+                    break;
+                case CUTSCENE:
+                    CutsceneManager.process();
                     break;
                 default:
                     break;
             }
         } catch (Exception ex) {
-            System.out.println("Some shit borked while processing things.");
+            ex.printStackTrace();
         }
+        requestFocus();
     }
     
     public void myRepaint() {
@@ -91,6 +97,7 @@ public class GameCanvas extends Canvas {
                 //System.out.println(graphics.getFontMetrics( MNUSELECT_FONT ).getStringBounds( "OPTIONS", graphics ).getWidth());
                 MenuUtility.drawMenu( MenuType.MAIN, graphics );
                 break;
+            case CUTSCENE:
             case GAME:
                 gameMap.drawMap(graphics, (short) (EntityManager.getPlayer().getCenter().getX() - 500),
                             (short) (EntityManager.getPlayer().getLocation().getY() + EntityManager.getPlayer().getDistanceOffsetY() - 300 - Map.TILE_SIZE));
@@ -116,6 +123,10 @@ public class GameCanvas extends Canvas {
     
     public static boolean[] getKeys() {
         return keys;
+    }
+    
+    public static void setState(GameState state) {
+        gameState = state;
     }
     
     public class Chrono implements ActionListener {
