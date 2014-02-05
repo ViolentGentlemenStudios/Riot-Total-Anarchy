@@ -1,6 +1,6 @@
 package com.violentgentlemenstudios.riot;
 
-import com.violentgentlemenstudios.riot.util.mapviewer.UtilMapEditor;
+import com.violentgentlemenstudios.riot.util.mapeditor.UtilMapEditor;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
