@@ -9,12 +9,10 @@ most comically excessively violent game we can come up with!
 
 ---
 
-Group Members:
-* Danielodst25           - Project Lead, Story, Audio Team (Music)
-* Supercorey/CoreSystems - Lead Programmer, Audio Team (SFX), Sysadmin, CTO
-* Eaddae                 - Graphics, Art Direction, Level Design
+**Group Members:**
+* Danielodst25 - Project Lead, Story, Audio Team (Music)
+* Corey Matyas - Lead Programmer, Audio Team (SFX), Sysadmin, CTO
+* Eaddae       - Graphics, Art Direction, Level Design
 
-Other Members:
+**Other Members:**
 * None at the moment (all others have quit or been terminated)
-
-Special Thanks In `credits.txt`
